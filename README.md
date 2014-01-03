@@ -1,5 +1,8 @@
 # DataPower Latency Log Entry Analyzer #
 
+**Note**: To download/install the add-on please check the
+[pages site](http://pglezen.github.io/dpShowLatency/).
+
 This Firefox add-on interprets an IBM DataPower appliance
 latency log entry based on the interpretation explained in
 [Herman's BLOG entry](https://www.ibm.com/developerworks/community/blogs/HermannSW/entry/latency_messages_in_datapower_appliance21?lang=en).
