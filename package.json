@@ -1,0 +1,9 @@
+{
+  "name": "dpshowlatency",
+  "title": "DataPower Latency Log Visualization",
+  "id": "dpshowlatency@glezen.org",
+  "description": "Analyze IBM DataPower appliance latency log entries.",
+  "author": "Paul Glezen",
+  "license": "IBM Software Group",
+  "version": "1.0.0"
+}
