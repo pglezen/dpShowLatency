@@ -52,6 +52,13 @@
       reorderedTime[j] = latencyTime[reordering[j]-1];
       if (j) {
         timeRecord.duration = reorderedTime[j] - reorderedTime[j-1];
+		  if (timeRecord.duration < 0) {
+		    // This happens if a timing is erroneously zero, making duration negative.
+			 // In this case, just set time to previous time.  This makes duration zero.
+			 timeRecord.duration = 0;
+			 reorderedTime[j] = reorderedTime[j-1];
+			 console.log("Warning: corrected negative interval at row " + (j+1));
+        }
       } else {
         timeRecord.duration = reorderedTime[j];
       }
