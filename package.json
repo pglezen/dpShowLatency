@@ -1,9 +1,10 @@
 {
-  "name": "dpshowlatency",
-  "title": "DataPower Latency Log Visualization",
-  "id": "dpshowlatency@glezen.org",
-  "description": "Analyze IBM DataPower appliance latency log entries.",
-  "author": "Paul Glezen",
-  "license": "IBM Software Group",
-  "version": "1.0.0"
+      "name": "dpshowlatency",
+     "title": "DataPower Latency Log Visualization",
+        "id": "dpshowlatency@glezen.org",
+ "description": "Analyze IBM DataPower appliance latency log entries.",
+    "author": "Paul Glezen",
+   "license": "IBM Software Group",
+  "homepage": "http://pglezen.github.io/dpShowLatency/",
+  "version": "1.0.1"
 }
