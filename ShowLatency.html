@@ -52,12 +52,12 @@
       reorderedTime[j] = latencyTime[reordering[j]-1];
       if (j) {
         timeRecord.duration = reorderedTime[j] - reorderedTime[j-1];
-		  if (timeRecord.duration < 0) {
-		    // This happens if a timing is erroneously zero, making duration negative.
-			 // In this case, just set time to previous time.  This makes duration zero.
-			 timeRecord.duration = 0;
-			 reorderedTime[j] = reorderedTime[j-1];
-			 console.log("Warning: corrected negative interval at row " + (j+1));
+        if (timeRecord.duration < 0) {
+          // This happens if a timing is erroneously zero, making duration negative.
+          // In this case, just set time to previous time.  This makes duration zero.
+          timeRecord.duration = 0;
+          reorderedTime[j] = reorderedTime[j-1];
+          console.log("Warning: corrected negative interval at row " + (j+1));
         }
       } else {
         timeRecord.duration = reorderedTime[j];
@@ -92,22 +92,22 @@
   // LatencyBar class definition (a little fun with JavaScript objects).
   //
   function LatencyBar(width, height) {
-	 this.width  = width;
+    this.width  = width;
     this.height = height;
-	 this.tick = [0];
-	 this.totalTime = 0;
+    this.tick = [0];
+    this.totalTime = 0;
   }
   LatencyBar.prototype.calculateTicks = function(timings, transition, debug) {
-	 var equalStep = this.height / timings.length;
-	 this.totalTime = timings[timings.length - 1].instant;
-	 var pxPerMs = this.height / this.totalTime;
-	 for (var i = 0; i < timings.length; i++) {
-		this.tick[i] = (timings[i].instant * pxPerMs) * transition
-						 + (equalStep * (i+1)) * (1.0 - transition);
-		if (debug) {
-		  console.log("Tick[" + i + "] = " + this.tick[i]);
-		}
-	 }
+    var equalStep = this.height / timings.length;
+    this.totalTime = timings[timings.length - 1].instant;
+    var pxPerMs = this.height / this.totalTime;
+    for (var i = 0; i < timings.length; i++) {
+      this.tick[i] = (timings[i].instant * pxPerMs) * transition
+                   + (equalStep * (i+1)) * (1.0 - transition);
+      if (debug) {
+        console.log("Tick[" + i + "] = " + this.tick[i]);
+      }
+    }
   }
 
   function showBar(bar, vOffset, debug) {
@@ -167,12 +167,12 @@
       }
     }
 
-	 // Stupid hack for bottom of canvas.
-	 //
-	 ctx.beginPath();
-	 ctx.moveTo(0,   canvas.height - 1);
-	 ctx.lineTo(200, canvas.height - 1);
-	 ctx.stroke();
+    // Stupid hack for bottom of canvas.
+    //
+    ctx.beginPath();
+    ctx.moveTo(0,   canvas.height - 1);
+    ctx.lineTo(200, canvas.height - 1);
+    ctx.stroke();
   }
 
   function renderCanvas(timings, debug) {
@@ -190,8 +190,8 @@
     var transition = 0;
 
     // Animation for transitioning the LatencyBar from constant row
-	 // heights to ones proportional to zone duration.
-	 //
+    // heights to ones proportional to zone duration.
+    //
     function drawTransition() {
       barObj.calculateTicks(timings, transition, debug);
       showBar(barObj, topR0, debug);
@@ -204,9 +204,9 @@
     }
 
     // Comment out the 3rd line to skip the transition animation.
-	 // Change the transition parameter to 1.0 to simply render
-	 // the end state; 0.0 renders a constant-width state.
-	 //
+    // Change the transition parameter to 1.0 to simply render
+    // the end state; 0.0 renders a constant-width state.
+    //
     barObj.calculateTicks(timings, transition, debug);
     showBar(barObj, topR0, debug);
     setTimeout(drawTransition, 2000);
@@ -254,7 +254,7 @@ Paste your latency record in the field below and click Parse.
          maxlength="200"
          placeholder="Latency record here" 
          autofocus="autofocus"
-			value="Latency:   0  50   0  50  50  42   0 859 914 859 914 914 903 859  50  50 [http://host/your/service]"/>
+         value="Latency:   0  50   0  50  50  42   0 859 914 859 914 914 903 859  50  50 [http://host/your/service]"/>
   <br/>
   <button onclick="parseAndRender();">Parse</button>
 </div>
