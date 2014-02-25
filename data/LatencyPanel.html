@@ -3,15 +3,39 @@
 
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+  table {
+	 border-collapse: collapse;
+	 width: 480px;
+  }
+  th { 
+	 background-color: #B3ABAA;
+	 padding: 2px 5px;
+	 text-align: left;
+  }
+  td { padding: 2px 5px; }
+  td.txn { padding-left: 2px; width: 60px; }
+  td.time { width: 80px; }
+  td.duration { 
+    text-align: right; 
+	 width: 60px;
+	 font-family: "Courier New", Courier, monospace;
+  }
+  td.uri { width: 250px; }
+</style>
 </head>
 
 <body>
-    <table id="LatencyTable" border="1">
-      <colgroup>
-        <col id="timestamp"/>
-        <col id="txnId"/>
-        <col id="latency"/>
-      </colgroup>
-    </table>
+<p>
+List of Latency Records from this page.
+</p>
+  <table id="LatencyTable">
+    <tr>
+      <th>Trx ID</th>
+      <th>Time</th>
+      <th>Duration</th>
+      <th>URI</th>
+    </tr>
+  </table>
 </body>
 </html>

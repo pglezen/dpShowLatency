@@ -4,7 +4,7 @@
         "id": "dpshowlatency@glezen.org",
  "description": "Analyze IBM DataPower appliance latency log entries.",
     "author": "Paul Glezen",
-   "license": "IBM Software Group",
+   "license": "MPL 2.0",
   "homepage": "http://pglezen.github.io/dpShowLatency/",
-  "version": "1.0.1"
+  "version": "1.1"
 }
