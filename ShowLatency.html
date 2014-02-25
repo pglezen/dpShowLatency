@@ -15,7 +15,7 @@
     console.log('Raw latency = ' + rawLatency);
 
     // Regular expression for latency log.          
-    var latencyMatch = rawLatency.match(/Latency:\s+((\d+\s+){16})(.*)/);
+    var latencyMatch = rawLatency.match(/Latency:\s+((?:\d+\s+){16})(.*)/);
     
     if (debug) {
       console.log('There are ' + latencyMatch.length + ' matches in the latency array.');
@@ -24,7 +24,7 @@
       }
       console.log("Full Match = " + latencyMatch[0]);
       console.log("Time Match = " + latencyMatch[1]);
-      console.log("URL Match  = " + latencyMatch[3]);
+      console.log("URL Match  = " + latencyMatch[2]);
     }
 
     // The following use of the trim() function fails with IE 8
@@ -32,7 +32,7 @@
     // for a few work-arounds.
     //
     var latencyTime = latencyMatch[1].trim().split(/\s+/);
-    var latencyURL  = latencyMatch[3];
+    var latencyURL  = latencyMatch[2];
     if (debug) {
       console.log("There are " + latencyTime.length + " latency times.");
       console.log("The last time is [" + latencyTime[latencyTime.length - 1] + "]");
@@ -52,12 +52,12 @@
       reorderedTime[j] = latencyTime[reordering[j]-1];
       if (j) {
         timeRecord.duration = reorderedTime[j] - reorderedTime[j-1];
-        if (timeRecord.duration < 0) {
-          // This happens if a timing is erroneously zero, making duration negative.
-          // In this case, just set time to previous time.  This makes duration zero.
-          timeRecord.duration = 0;
-          reorderedTime[j] = reorderedTime[j-1];
-          console.log("Warning: corrected negative interval at row " + (j+1));
+		  if (timeRecord.duration < 0) {
+		    // This happens if a timing is erroneously zero, making duration negative.
+			 // In this case, just set time to previous time.  This makes duration zero.
+			 timeRecord.duration = 0;
+			 reorderedTime[j] = reorderedTime[j-1];
+			 console.log("Warning: corrected negative interval at row " + (j+1));
         }
       } else {
         timeRecord.duration = reorderedTime[j];
@@ -92,22 +92,22 @@
   // LatencyBar class definition (a little fun with JavaScript objects).
   //
   function LatencyBar(width, height) {
-    this.width  = width;
+	 this.width  = width;
     this.height = height;
-    this.tick = [0];
-    this.totalTime = 0;
+	 this.tick = [0];
+	 this.totalTime = 0;
   }
   LatencyBar.prototype.calculateTicks = function(timings, transition, debug) {
-    var equalStep = this.height / timings.length;
-    this.totalTime = timings[timings.length - 1].instant;
-    var pxPerMs = this.height / this.totalTime;
-    for (var i = 0; i < timings.length; i++) {
-      this.tick[i] = (timings[i].instant * pxPerMs) * transition
-                   + (equalStep * (i+1)) * (1.0 - transition);
-      if (debug) {
-        console.log("Tick[" + i + "] = " + this.tick[i]);
-      }
-    }
+	 var equalStep = this.height / timings.length;
+	 this.totalTime = timings[timings.length - 1].instant;
+	 var pxPerMs = this.height / this.totalTime;
+	 for (var i = 0; i < timings.length; i++) {
+		this.tick[i] = (timings[i].instant * pxPerMs) * transition
+						 + (equalStep * (i+1)) * (1.0 - transition);
+		if (debug) {
+		  console.log("Tick[" + i + "] = " + this.tick[i]);
+		}
+	 }
   }
 
   function showBar(bar, vOffset, debug) {
@@ -167,12 +167,12 @@
       }
     }
 
-    // Stupid hack for bottom of canvas.
-    //
-    ctx.beginPath();
-    ctx.moveTo(0,   canvas.height - 1);
-    ctx.lineTo(200, canvas.height - 1);
-    ctx.stroke();
+	 // Stupid hack for bottom of canvas.
+	 //
+	 ctx.beginPath();
+	 ctx.moveTo(0,   canvas.height - 1);
+	 ctx.lineTo(200, canvas.height - 1);
+	 ctx.stroke();
   }
 
   function renderCanvas(timings, debug) {
@@ -190,8 +190,8 @@
     var transition = 0;
 
     // Animation for transitioning the LatencyBar from constant row
-    // heights to ones proportional to zone duration.
-    //
+	 // heights to ones proportional to zone duration.
+	 //
     function drawTransition() {
       barObj.calculateTicks(timings, transition, debug);
       showBar(barObj, topR0, debug);
@@ -204,24 +204,29 @@
     }
 
     // Comment out the 3rd line to skip the transition animation.
-    // Change the transition parameter to 1.0 to simply render
-    // the end state; 0.0 renders a constant-width state.
-    //
-    barObj.calculateTicks(timings, transition, debug);
-    showBar(barObj, topR0, debug);
-    setTimeout(drawTransition, 2000);
+	 // Change the transition parameter to 1.0 to simply render
+	 // the end state; 0.0 renders a constant-width state.
+	 //
+	 if (document.forms.animation.skip.checked) {
+      barObj.calculateTicks(timings, 1.0, debug);
+		showBar(barObj, topR0, debug);
+    } else {
+		barObj.calculateTicks(timings, transition, debug);
+		showBar(barObj, topR0, debug);
+		setTimeout(drawTransition, 2000);
+	 }
 
   }
   
-  function parseAndRender() {
-    var timings = parseLatencyField('latencyRecordField', false);
-    populateTable(timings, false);
+  function parseAndRender(debug) {
+    var timings = parseLatencyField('latencyRecordField', debug);
+    populateTable(timings, debug);
     renderCanvas(timings, false);
   }
 
   window.addEventListener('message', function(event) {
     console.log("ShowLatency.html received 'message' event. Invoking parseAndRender().");
-    parseAndRender();
+    parseAndRender(false);
   }, false);
 </script>
 
@@ -241,8 +246,7 @@
 <body>
 <h1>Latency Record Display</h1>
 <p>
-Note: IE 8 does not support the JavaScript trim() function like the rest
-of the browser universe.  Try IE 9+ or any other brand of browsers.
+<strong>Note</strong>: Not supported on IE 8.  Try IE 9+ or any other browser .
 </p>
 <p>
 Paste your latency record in the field below and click Parse.
@@ -254,16 +258,26 @@ Paste your latency record in the field below and click Parse.
          maxlength="200"
          placeholder="Latency record here" 
          autofocus="autofocus"
-         value="Latency:   0  50   0  50  50  42   0 859 914 859 914 914 903 859  50  50 [http://host/your/service]"/>
-  <br/>
-  <button onclick="parseAndRender();">Parse</button>
+			value="Latency:   0  50   0  50  50  42   0 859 914 859 914 914 903 859  50  50 [http://host/your/service]"/>
+  <p>
+  <button width='60' onclick="parseAndRender(true);">Analyze</button>
+  </p>
 </div>
-<br/>
+
+<table>
+<tr><td>
 IBM Tech-Note: <a href="http://www-01.ibm.com/support/docview.wss?uid=swg21239328">Reordering of Latency fields</a>
-<br/>
+</td><td style="padding-left: 50px;">
 Hermann's BLOG: 
 <a href="https://www.ibm.com/developerworks/community/blogs/HermannSW/entry/latency_messages_in_datapower_appliance21?lang=en">Latency Groupings</a>
-<br/>
+</td></tr>
+</table>
+<p>
+<form name="animation">
+<label>Skip Animation</label> <input type="checkbox" name="skip"/>
+(It's cool the first time; annoying after a few times.)
+</form>
+</p>
 <div id="outputArea">
   <p id="outText"></p>
   <div id="bar">
@@ -302,5 +316,8 @@ Hermann's BLOG:
     </table>
   </div>
 </div>
+<p>
+Maintained on <a href="http://pglezen.github.io/dpShowLatency/">GitHub</a>
+</p>
 </body>
 </html>
