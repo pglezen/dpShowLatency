@@ -6,5 +6,6 @@
     "author": "Paul Glezen",
    "license": "MPL 2.0",
   "homepage": "http://pglezen.github.io/dpShowLatency/",
-  "version": "1.1"
+      "main": "lib/main.js",
+   "version": "1.1.1"
 }

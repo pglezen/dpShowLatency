@@ -5,7 +5,10 @@ var name = "collectLatencyRecords.js";
 
 self.port.on("scanlatencies", function() {
   var logWindow = frames['mainFrame'];
-  if (logWindow) {
+  if (!logWindow) {
+    console.log('Could not find iframe named "mainFrame"; using window.');
+    logWindow = window;
+  }
     var allLinks = logWindow.document.getElementsByTagName("a");
     console.log("Link count: " + allLinks.length);
     var latencyLinks = Array.prototype.filter.call(allLinks, function(linkNode) {
@@ -26,9 +29,6 @@ self.port.on("scanlatencies", function() {
     });
     console.log(name + ': sending panelInfo with quantity: ' + panelInfo.length);
     self.port.emit('updateLatencyPanel', panelInfo);
-  } else {
-    console.log('Could not find iframe named "mainFrame".');
-  }
 });
 
 

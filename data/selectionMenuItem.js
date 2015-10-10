@@ -24,6 +24,8 @@ self.on("context", function(node) {
     console.log(name + ": Failed to detect a selected latency record.");
     console.log(name + ": selected node name = " + node.nodeName);
     console.log(name + ": selected text = " + selectionText);
+  } else {
+    console.log(name + ": returning context = " + containsLatencyRecord);
   }
   return containsLatencyRecord;
 });
