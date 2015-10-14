@@ -1,0 +1,6 @@
+sampleLogPage
+.DS_Store
+.gitignore
+.git
+*.zip
+*.xpi
